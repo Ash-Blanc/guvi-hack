@@ -1,10 +1,10 @@
-import os
 import json
 from typing import Optional
 from agno.agent import Agent
 from agno.models.mistral import MistralChat
 from agno.models.google import Gemini
 from pydantic import BaseModel, Field
+from app.load_balancer import get_mistral_key
 
 class ScamDetectionResult(BaseModel):
     is_scam: bool = Field(..., description="Whether the message is detected as a scam.")
@@ -29,7 +29,7 @@ def get_scam_detector_agent(model_id: str = "mistral-large-latest", **kwargs):
         name="ScamDetector",
         model=MistralChat(
             id=model_id,
-            api_key=os.getenv("MISTRAL_API_KEY"),
+            api_key=get_mistral_key(),
         ),
         description="Analyzes messages for scam intent.",
         instructions=instructions,

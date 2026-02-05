@@ -1,8 +1,8 @@
-import os
 from agno.agent import Agent
 from agno.models.mistral import MistralChat
 from ..intelligence import extract_intelligence
 from ..personas import select_persona, format_persona_instructions, get_persona_by_id, Persona
+from app.load_balancer import get_mistral_key
 
 
 def get_honeypot_agent(
@@ -40,7 +40,7 @@ def get_honeypot_agent(
         name="HoneypotAgent",
         model=MistralChat(
             id=model_id,
-            api_key=os.getenv("MISTRAL_API_KEY"),
+            api_key=get_mistral_key(),
         ),
         description=f"Honeypot agent playing '{persona.name}' - {persona.occupation}",
         instructions=instructions,
