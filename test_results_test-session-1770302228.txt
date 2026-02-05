@@ -1,0 +1,35 @@
+=== Honeypot API Test Results ===
+Session ID: test-session-1770302228
+Timestamp: Thu Feb  5 14:37:08 UTC 2026
+
+--- Conversation: GST Payment Scam ---
+
+Turn 1 [scammer]: Your GST invoice payment of Rs 50000 is pending. Pay immediately to avoid penalty.
+Response [agent]: ok who is this my CA handles gst things send me proof first
+
+Turn 2 [scammer]: Sir this is from GST department. Send payment to UPI: gst.payment@okaxis or your business license will be suspended.
+Response [agent]: 
+
+Turn 3 [scammer]: You can call our helpline 9876543210 for verification. But payment must be done in 1 hour.
+Response [agent]: 
+
+Turn 4 [scammer]: Sir are you sending the payment? Just confirm your bank account number ending digits for our records.
+Response [agent]: 
+
+Turn 5 [scammer]: Last warning sir. Send Rs 50000 to gst.payment@okaxis now or face legal action.
+Response [agent]: 
+
+Turn 6 [scammer]: We have your business registered at office number 011-12345678. Confirm if correct.
+Response [agent]: 
+
+Turn 7 [scammer]: OK sir final confirmation - send payment screenshot to this WhatsApp: +919876543210
+Response [agent]: 
+
+
+=== EXTRACTED INTELLIGENCE SUMMARY ===
+UPI IDs: gst.payment@okaxis
+Phone Numbers: 9876543210, +919876543210, 011-12345678
+Scam Type: GST Payment Fraud
+Persona Used: Vikram (Business Owner)
+Total Turns: 7
+

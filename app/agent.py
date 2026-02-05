@@ -1,79 +1,49 @@
-import os
-import langwatch
-from agno.agent import Agent
-from agno.models.google import Gemini
-from agno.models.openai.like import OpenAILike
-from agno.models.mistral import MistralChat
-from openinference.instrumentation.agno import AgnoInstrumentor
+from datetime import datetime
+import json
+from .models import APIRequest, APIResponse
+from .team import get_fraud_detection_team
 from .intelligence import extract_intelligence, is_scam
-from .models import APIResponse, APIRequest, Message
-
-# Setup LangWatch instrumentation
-langwatch.setup(instrumentors=[AgnoInstrumentor()])
-
-import yaml
-
-def get_honeypot_agent(db=None):
-    # Load prompt from YAML as a fallback for sync issues
-    prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "honeypot_agent.prompt.yaml")
-    instructions = []
-    try:
-        with open(prompt_path, 'r') as f:
-            prompt_config = yaml.safe_load(f)
-            for msg in prompt_config.get('messages', []):
-                if msg.get('role') == 'system':
-                    instructions.append(msg.get('content'))
-    except Exception as e:
-        print(f"Warning: Could not load prompt from {prompt_path}: {e}")
-        instructions = [
-            "1. Analyze the incoming message for scam intent.",
-            "2. If it's a scam, respond in character to engage them and delay them.",
-            "3. Extract any bank info, UPI IDs or links they share.",
-            "4. Never admit you are an AI or that you know it's a scam.",
-        ]
-    
-    agent = Agent(
-        name="HoneypotAgent",
-        # model=Gemini(id="gemini-1.5-flash"),
-        # model=OpenAILike(
-        #     id="openai",
-        #     base_url="https://text.pollinations.ai/nova-fast",
-        #     api_key=os.getenv("POLLINATIONS_API_KEY", "pollinations"),
-        # ),
-        model=MistralChat(
-            id="mistral-large-latest",
-            api_key=os.getenv("MISTRAL_API_KEY"),
-        ),
-        description="You are a human-like honeypot agent engaging scammers. You can extract intelligence tools to analyze messages.",
-        instructions=instructions + ["Use the `extract_intelligence` tool to scan incoming messages for bank details, UPIs, or phone numbers if they look suspicious."],
-        tools=[extract_intelligence],
-        markdown=False,
-        db=db,
-    )
-
-    return agent
 
 
 async def process_message(request: APIRequest) -> APIResponse:
+    """
+    Process an incoming message through the fraud detection team.
+    
+    The team will:
+    1. Analyze the message for scam indicators
+    2. If scam detected, delegate to HoneypotAgent with appropriate persona
+    3. Return a human-like response that doesn't reveal AI nature
+    """
     text = request.message.text
-    history = "\n".join([f"{m.sender}: {m.text}" for m in request.conversationHistory])
+    history_text = "\n".join([f"{m.sender}: {m.text}" for m in request.conversationHistory])
     
-    # Extract intelligence locally first
-    extracted = extract_intelligence(text)
-    scam_detected = is_scam(text, extracted)
+    # Determine first message for persona selection
+    # If no history, this is the first message
+    first_message = text if not request.conversationHistory else request.conversationHistory[0].text
     
-    # Get agent response
-    agent = get_honeypot_agent()
+    # Quick Local Intelligence Check (useful for logging/metrics)
+    extracted_local = extract_intelligence(text)
     
-    # Prepare the query for the agent incorporating context
-    query = f"Incoming Message: {text}\nHistory: {history}\nMetadata: {request.metadata}"
+    # Initialize the Team with first message for persona selection
+    team_leader = get_fraud_detection_team(first_message=first_message)
     
-    # In a real scenario, we'd use Structured Output
-    # For this hackathon, we want a fast respond back
-    response = agent.run(query)
+    # Construct the Team Query
+    query = f"""
+    Incoming Message from User: "{text}"
+    Sender: {request.message.sender}
+    Context/History:
+    {history_text}
     
-    # The agent prompt instructed it to return JSON or a human message
-    # We ensure we return the required APIResponse format
-    reply = response.content if response.content else "I'm not sure I understand. Can you explain more?"
+    Metadata: {request.metadata}
     
+    Decide if this is a scam. If yes, let the Honeypot handle it. If no, reply yourself.
+    """
+    
+    # Run the Team asynchronously
+    response = await team_leader.arun(query)
+    
+    reply = "No response"
+    if response and response.content:
+         reply = str(response.content)
+
     return APIResponse(status="success", reply=reply)
