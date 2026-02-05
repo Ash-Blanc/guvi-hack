@@ -1,14 +1,12 @@
 services:
   - type: web
     name: honey-pot-api
-    payload:
-      # Start command for Uvicorn
-      startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    env: python
+    runtime: python
     buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.0
+        value: "3.11"
       - key: API_KEY
         generateValue: true
       - key: MISTRAL_API_KEY
