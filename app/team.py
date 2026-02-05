@@ -5,7 +5,7 @@ from .personas import select_persona, format_persona_instructions
 
 
 def get_fraud_detection_team(
-    model_id: str = "mistral-large-latest",
+    model_id: str = "mistral-medium-latest",
     first_message: str = None,
     **kwargs
 ):
