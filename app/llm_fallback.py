@@ -46,7 +46,7 @@ class ReliableMistral(MistralChat):
         """Returns the configured fallback model (Pollinations.ai)."""
         # Pollinations.ai text generation endpoint
         return OpenAIChat(
-            id="gpt-4o",  # Common alias supported by Pollinations
+            id="nova-fast",  # Using nova-fast as requested
             base_url="https://text.pollinations.ai/openai",
             api_key="dummy",  # Pollinations doesn't strictly enforce key check for free tier
             max_tokens=self.max_tokens,
