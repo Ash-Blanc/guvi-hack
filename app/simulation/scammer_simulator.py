@@ -19,7 +19,7 @@ def get_scammer_simulator_agent(api_key=None):
     agent = Agent(
         name="ScammerSimulator",
         model=MistralChat(
-            id="mistral-large-latest",
+            id="mistral-small-latest",
             api_key=os.getenv("MISTRAL_API_KEY"),
         ),
         instructions=instructions,

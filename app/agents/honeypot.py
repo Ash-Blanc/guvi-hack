@@ -6,7 +6,7 @@ from app.load_balancer import get_mistral_key
 
 
 def get_honeypot_agent(
-    model_id: str = "mistral-large-latest",
+    model_id: str = "mistral-small-latest",
     persona_id: str = None,
     first_message: str = None,
     **kwargs
@@ -54,7 +54,7 @@ def get_honeypot_agent(
 def get_honeypot_agent_for_session(
     session_state: dict = None,
     first_message: str = None,
-    model_id: str = "mistral-large-latest",
+    model_id: str = "mistral-small-latest",
     **kwargs
 ):
     """
