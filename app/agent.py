@@ -2,6 +2,7 @@ import os
 import langwatch
 from agno.agent import Agent
 from agno.models.google import Gemini
+from agno.models.openai.like import OpenAILike
 from openinference.instrumentation.agno import AgnoInstrumentor
 from .intelligence import extract_intelligence, is_scam
 from .models import APIResponse, APIRequest, Message
@@ -11,7 +12,7 @@ langwatch.setup(instrumentors=[AgnoInstrumentor()])
 
 import yaml
 
-def get_honeypot_agent():
+def get_honeypot_agent(db=None):
     # Load prompt from YAML as a fallback for sync issues
     prompt_path = os.path.join(os.path.dirname(__file__), "..", "prompts", "honeypot_agent.prompt.yaml")
     instructions = []
@@ -32,10 +33,17 @@ def get_honeypot_agent():
     
     agent = Agent(
         name="HoneypotAgent",
-        model=Gemini(id="gemini-1.5-flash"),
-        description="You are a human-like honeypot agent engaging scammers.",
-        instructions=instructions,
-        markdown=False
+        # model=Gemini(id="gemini-1.5-flash"),
+        model=OpenAILike(
+            id="openai",
+            base_url="https://text.pollinations.ai/openai",
+            api_key="pollinations",
+        ),
+        description="You are a human-like honeypot agent engaging scammers. You can extract intelligence tools to analyze messages.",
+        instructions=instructions + ["Use the `extract_intelligence` tool to scan incoming messages for bank details, UPIs, or phone numbers if they look suspicious."],
+        tools=[extract_intelligence],
+        markdown=False,
+        db=db,
     )
 
     return agent

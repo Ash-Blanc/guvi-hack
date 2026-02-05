@@ -15,6 +15,10 @@ SCAM_KEYWORDS = [
 ]
 
 def extract_intelligence(text: str) -> ExtractedIntelligence:
+    """
+    Analyzes the message text to extract specific intelligence like UPI IDs, phone numbers, bank accounts, and phishing links.
+    Use this to confirm specific structured data from the scam start.
+    """
     upi_ids = re.findall(UPI_PATTERN, text)
     phone_numbers = re.findall(PHONE_PATTERN, text)
     bank_accounts = re.findall(BANK_ACC_PATTERN, text)
