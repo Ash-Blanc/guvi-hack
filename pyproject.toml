@@ -1,0 +1,22 @@
+[project]
+name = "guvi-honeypot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "agno>=2.4.8",
+    "fastapi[standard]>=0.128.1",
+    "google-genai>=1.62.0",
+    "httpx>=0.28.1",
+    "langwatch>=0.10.1",
+    "openinference-instrumentation-agno>=0.1.27",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "langwatch-scenario>=0.7.15",
+    "pytest-asyncio>=1.3.0",
+]
