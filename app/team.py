@@ -4,8 +4,10 @@ from .agents.honeypot import get_honeypot_agent
 from .personas import select_persona, format_persona_instructions
 
 
+from .config import TEAM_LEADER_MODEL_ID
+
 def get_fraud_detection_team(
-    model_id: str = "mistral-small-latest",
+    model_id: str = TEAM_LEADER_MODEL_ID,
     first_message: str = None,
     **kwargs
 ):

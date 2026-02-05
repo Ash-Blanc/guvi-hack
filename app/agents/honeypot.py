@@ -3,10 +3,11 @@ from agno.models.mistral import MistralChat
 from ..intelligence import extract_intelligence
 from ..personas import select_persona, format_persona_instructions, get_persona_by_id, Persona
 from app.load_balancer import get_mistral_key
+from ..config import HONEYPOT_MODEL_ID
 
 
 def get_honeypot_agent(
-    model_id: str = "mistral-small-latest",
+    model_id: str = HONEYPOT_MODEL_ID,
     persona_id: str = None,
     first_message: str = None,
     **kwargs
@@ -54,7 +55,7 @@ def get_honeypot_agent(
 def get_honeypot_agent_for_session(
     session_state: dict = None,
     first_message: str = None,
-    model_id: str = "mistral-small-latest",
+    model_id: str = HONEYPOT_MODEL_ID,
     **kwargs
 ):
     """

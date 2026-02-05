@@ -12,7 +12,9 @@ class ScamDetectionResult(BaseModel):
     reasoning: str = Field(..., description="Brief explanation of why it is or isn't a scam.")
     scam_type: Optional[str] = Field(None, description="Type of scam (e.g., Phishing, UPI Fraud, OTP, Lottery) if detected.")
 
-def get_scam_detector_agent(model_id: str = "mistral-small-latest", **kwargs):
+from ..config import SCAM_DETECTOR_MODEL_ID
+
+def get_scam_detector_agent(model_id: str = SCAM_DETECTOR_MODEL_ID, **kwargs):
     instructions = [
         "You are an expert Cyber Security Analyst specialized in detecting social engineering and financial scams.",
         "Analyze the incoming message for common scam indicators:",
