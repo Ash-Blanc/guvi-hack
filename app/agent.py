@@ -37,7 +37,7 @@ def get_honeypot_agent(db=None):
         model=OpenAILike(
             id="openai",
             base_url="https://text.pollinations.ai/openai",
-            api_key="pollinations",
+            api_key=os.getenv("POLLINATIONS_API_KEY", "pollinations"),
         ),
         description="You are a human-like honeypot agent engaging scammers. You can extract intelligence tools to analyze messages.",
         instructions=instructions + ["Use the `extract_intelligence` tool to scan incoming messages for bank details, UPIs, or phone numbers if they look suspicious."],
