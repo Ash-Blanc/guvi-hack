@@ -26,13 +26,19 @@ Railway is the **best free alternative** to Render for your use case.
 3. Railway will auto-detect it's a Python app
 
 ### 3. Configure Environment Variables
-Click on your service → **Variables** tab → Add:
+**CRITICAL:** Your app will crash without these!
 
-```
-MISTRAL_API_KEY=<your-mistral-key>
-API_KEY=<your-api-key>
-PORT=8000
-```
+1. Click on your service "honey-pot-api"
+2. Click the **Variables** tab
+3. Click "New Variable" and add:
+
+| Variable Name | Value |
+|---------------|-------|
+| `MISTRAL_API_KEY` | `key1, key2, key3` (Comma separated) |
+| `API_KEY` | `test-key` (or your chosen secure key) |
+| `PORT` | `8000` |
+
+*Note: You can use "RAW Editor" to paste `.env` content directly (excluding comments).*
 
 ### 4. Configure Start Command
 Click **Settings** → **Deploy** → Set start command:

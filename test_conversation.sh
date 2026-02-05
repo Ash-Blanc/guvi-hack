@@ -3,8 +3,8 @@
 # Multi-Turn Conversation Test Script
 # Simulates a realistic 7-turn conversation with the Honeypot API
 
-API_URL="http://localhost:8001/analyze"
-API_KEY="test-key"
+API_URL="${API_URL:-http://localhost:8001/analyze}"
+API_KEY="${API_KEY:-test-key}"
 SESSION_ID="test-session-$(date +%s)"
 OUTPUT_FILE="test_results_${SESSION_ID}.txt"
 

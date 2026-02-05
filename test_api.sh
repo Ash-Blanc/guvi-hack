@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-API_URL="http://localhost:8001/analyze"
-API_KEY="test-key"
+API_URL="${API_URL:-http://localhost:8001/analyze}"
+API_KEY="${API_KEY:-test-key}"
 
 # Colors
 GREEN='\033[0;32m'

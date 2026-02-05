@@ -670,15 +670,7 @@ langsmith==0.6.8 \
     --hash=sha256:3a7eb7155f2839dc729a5aa5b0bfc4aa1cb617b09a2290cf77031041271a7cdf \
     --hash=sha256:d17da18aeef15fdb4c3baec348bad64056591d785629cd5ba4846fd93cab166b
     # via langchain-core
-langwatch==0.10.1 \
-    --hash=sha256:38a9a34a32ea8e603cefb8cd862bbb13f4d8258aa8b58e561c9d7852bc5cce49 \
-    --hash=sha256:3e5db10de23f0353e3380ce186a8a2697a886a3ac2fee2df5ead8acc31fe98e8
-    # via
-    #   guvi-honeypot
-    #   langwatch-scenario
-langwatch-scenario==0.7.15 \
-    --hash=sha256:46b061dd6c5b1ae6776514eaf6dd550334f3b6163c15424f76a76dc1b9fc8534 \
-    --hash=sha256:49e0f5a3cbda3af50da14da1aaab1c673c76c8ae4a853deb3a0ecd44d185c8fb
+
 litellm==1.81.7 \
     --hash=sha256:442ff38708383ebee21357b3d936e58938172bae892f03bc5be4019ed4ff4a17 \
     --hash=sha256:58466c88c3289c6a3830d88768cf8f307581d9e6c87861de874d1128bb2de90d
