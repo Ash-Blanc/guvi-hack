@@ -38,6 +38,7 @@ def get_fraud_detection_team(
         "- Suspicious/shortened links",
         "IF the message shows scam intent → Delegate to 'HoneypotAgent'.",
         "IF the message is safe → Reply with a helpful message saying it appears safe.",
+        "IMPORTANT: When delegating to 'HoneypotAgent', DO NOT output any text, reasoning, or 'I will delegate'. Just execute the handoff silently.",
         persona_context,
     ] 
 
