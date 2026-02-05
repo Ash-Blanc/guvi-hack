@@ -2,6 +2,7 @@ from agno.agent import Agent
 from agno.models.mistral import MistralChat
 from agno.models.google import Gemini
 from ..config import SIMULATOR_MODEL_ID
+from ..llm_fallback import get_model
 import os
 
 def get_scammer_simulator_agent(api_key=None):
@@ -15,8 +16,8 @@ def get_scammer_simulator_agent(api_key=None):
     
     agent = Agent(
         name="ScammerSimulator",
-        model=MistralChat(
-            id=SIMULATOR_MODEL_ID,
+        model=get_model(
+            model_id=SIMULATOR_MODEL_ID,
             api_key=os.getenv("MISTRAL_API_KEY"),
         ),
         instructions=instructions,

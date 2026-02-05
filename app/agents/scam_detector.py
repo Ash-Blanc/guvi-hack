@@ -13,6 +13,7 @@ class ScamDetectionResult(BaseModel):
     scam_type: Optional[str] = Field(None, description="Type of scam (e.g., Phishing, UPI Fraud, OTP, Lottery) if detected.")
 
 from ..config import SCAM_DETECTOR_MODEL_ID
+from ..llm_fallback import get_model
 
 def get_scam_detector_agent(model_id: str = SCAM_DETECTOR_MODEL_ID, **kwargs):
     instructions = [
@@ -29,8 +30,8 @@ def get_scam_detector_agent(model_id: str = SCAM_DETECTOR_MODEL_ID, **kwargs):
     
     agent = Agent(
         name="ScamDetector",
-        model=MistralChat(
-            id=model_id,
+        model=get_model(
+            model_id=model_id,
             api_key=get_mistral_key(),
         ),
         description="Analyzes messages for scam intent.",

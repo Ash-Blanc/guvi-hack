@@ -4,6 +4,7 @@ from ..intelligence import extract_intelligence
 from ..personas import select_persona, format_persona_instructions, get_persona_by_id, Persona
 from app.load_balancer import get_mistral_key
 from ..config import HONEYPOT_MODEL_ID
+from ..llm_fallback import get_model
 
 
 def get_honeypot_agent(
@@ -39,8 +40,8 @@ def get_honeypot_agent(
     
     agent = Agent(
         name="HoneypotAgent",
-        model=MistralChat(
-            id=model_id,
+        model=get_model(
+            model_id=model_id,
             api_key=get_mistral_key(),
         ),
         description=f"Honeypot agent playing '{persona.name}' - {persona.occupation}",
