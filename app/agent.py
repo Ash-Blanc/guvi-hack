@@ -3,6 +3,7 @@ import langwatch
 from agno.agent import Agent
 from agno.models.google import Gemini
 from agno.models.openai.like import OpenAILike
+from agno.models.mistral import MistralChat
 from openinference.instrumentation.agno import AgnoInstrumentor
 from .intelligence import extract_intelligence, is_scam
 from .models import APIResponse, APIRequest, Message
@@ -34,10 +35,14 @@ def get_honeypot_agent(db=None):
     agent = Agent(
         name="HoneypotAgent",
         # model=Gemini(id="gemini-1.5-flash"),
-        model=OpenAILike(
-            id="openai",
-            base_url="https://text.pollinations.ai/openai",
-            api_key=os.getenv("POLLINATIONS_API_KEY", "pollinations"),
+        # model=OpenAILike(
+        #     id="openai",
+        #     base_url="https://text.pollinations.ai/nova-fast",
+        #     api_key=os.getenv("POLLINATIONS_API_KEY", "pollinations"),
+        # ),
+        model=MistralChat(
+            id="mistral-large-latest",
+            api_key=os.getenv("MISTRAL_API_KEY"),
         ),
         description="You are a human-like honeypot agent engaging scammers. You can extract intelligence tools to analyze messages.",
         instructions=instructions + ["Use the `extract_intelligence` tool to scan incoming messages for bank details, UPIs, or phone numbers if they look suspicious."],
